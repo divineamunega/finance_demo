@@ -1,0 +1,42 @@
+{
+  "name": "finance_demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx --env-file=.env.local db/migrate.ts",
+    "db:seed": "tsx --env-file=.env.local db/seed.ts",
+    "db:daily-update": "tsx --env-file=.env.local db/daily-update.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "@neondatabase/serverless": "^0.10.3",
+    "@openrouter/ai-sdk-provider": "^1.2.8",
+    "ai": "^5.0.104",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.36.4",
+    "next": "16.0.5",
+    "openai": "^4.77.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "recharts": "^2.15.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "drizzle-kit": "^0.30.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.5",
+    "tailwindcss": "^4",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  }
+}
