@@ -99,7 +99,15 @@ async function generateTransactions(accountId: string, accountType: string, star
     
     for (let i = 0; i < transactionsPerDay; i++) {
       // Determine if this is income/credit or expense/debit
-      const isCredit = faker.number.float({ min: 0, max: 1 }) < 0.3; // 30% chance of credit
+      // Investment accounts should have more credits to grow over time
+      let isCredit: boolean;
+      if (accountType === 'investment') {
+        isCredit = faker.number.float({ min: 0, max: 1 }) < 0.7; // 70% chance of credit for investments
+      } else if (accountType === 'savings') {
+        isCredit = faker.number.float({ min: 0, max: 1 }) < 0.6; // 60% chance of credit for savings
+      } else {
+        isCredit = faker.number.float({ min: 0, max: 1 }) < 0.3; // 30% chance of credit for checking
+      }
       
       let category: string;
       if (accountType === 'checking') {
@@ -111,7 +119,9 @@ async function generateTransactions(accountId: string, accountType: string, star
           ? faker.helpers.arrayElement(['income', 'transfer', 'investment'])
           : faker.helpers.arrayElement(['transfer']);
       } else { // investment
-        category = faker.helpers.arrayElement(['investment', 'income', 'transfer']);
+        category = isCredit
+          ? faker.helpers.arrayElement(['investment', 'income', 'transfer'])
+          : faker.helpers.arrayElement(['transfer']);
       }
 
       const amount = generateTransactionAmount(category);
@@ -162,26 +172,22 @@ async function main() {
     console.log('Creating accounts...');
     const allAccounts = [];
     for (const user of createdUsers) {
-      const numAccounts = faker.number.int({ min: 1, max: 2 });
-      const userAccountTypes = faker.helpers.shuffle([...ACCOUNT_TYPES]).slice(0, numAccounts);
+      // Each user gets exactly one savings account
+      const initialBalance = faker.number.float({ 
+        min: 5000,
+        max: 20000,
+        fractionDigits: 2 
+      });
 
-      for (const accountType of userAccountTypes) {
-        const initialBalance = faker.number.float({ 
-          min: accountType === 'checking' ? 1000 : accountType === 'savings' ? 5000 : 10000,
-          max: accountType === 'checking' ? 5000 : accountType === 'savings' ? 20000 : 50000,
-          fractionDigits: 2 
-        });
+      const account = await db.insert(accounts).values({
+        userId: user.id,
+        name: 'Savings Account',
+        type: 'savings',
+        balance: initialBalance.toFixed(2),
+        currency: 'USD',
+      }).returning();
 
-        const account = await db.insert(accounts).values({
-          userId: user.id,
-          name: `${accountType.charAt(0).toUpperCase() + accountType.slice(1)} Account`,
-          type: accountType,
-          balance: initialBalance.toFixed(2),
-          currency: 'USD',
-        }).returning();
-
-        allAccounts.push({ ...account[0], initialBalance });
-      }
+      allAccounts.push({ ...account[0], initialBalance });
     }
     console.log(`✓ Created ${allAccounts.length} accounts`);
 

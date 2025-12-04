@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { config } from 'dotenv';
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
-import { migrate } from 'drizzle-orm/neon-http/migrator';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
 
 // Load .env.local file
 config({ path: '.env.local' });
@@ -17,10 +17,13 @@ const runMigrations = async () => {
   console.log('⏳ Running migrations...');
   console.log('📍 Database:', process.env.DATABASE_URL.split('@')[1]?.split('/')[0] || 'hidden');
 
-  const sql = neon(process.env.DATABASE_URL);
-  const db = drizzle(sql);
+  // Create postgres client for migrations
+  const migrationClient = postgres(process.env.DATABASE_URL, { max: 1 });
+  const db = drizzle(migrationClient);
 
   await migrate(db, { migrationsFolder: './drizzle' });
+
+  await migrationClient.end();
 
   console.log('✅ Migrations completed!');
   process.exit(0);

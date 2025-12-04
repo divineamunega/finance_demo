@@ -9,13 +9,13 @@ interface Account {
   type: string;
 }
 
-interface FormDepositProps {
+interface FormWithdrawProps {
   accounts: Account[];
   onSuccess?: () => void;
   onCancel?: () => void;
 }
 
-export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps) {
+export function FormWithdraw({ accounts, onSuccess, onCancel }: FormWithdrawProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,7 +29,7 @@ export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps)
     const amount = parseFloat(formData.get('amount') as string);
 
     try {
-      const response = await fetch('/api/deposit', {
+      const response = await fetch('/api/withdraw', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ accountId, amount }),
@@ -43,7 +43,7 @@ export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps)
         }
       } else {
         const data = await response.json();
-        setError(data.error || 'Deposit failed');
+        setError(data.error || 'Withdrawal failed');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
@@ -66,7 +66,7 @@ export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps)
           name="accountId" 
           required 
           disabled={loading}
-          className="w-full p-3 border-2 border-gray-400 rounded-xl bg-white text-gray-900 font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full p-3 border-2 border-gray-400 rounded-xl bg-white text-gray-900 font-medium focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <option value="">Select account</option>
           {accounts.map(acc => (
@@ -87,7 +87,7 @@ export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps)
           required 
           disabled={loading}
           placeholder="0.00"
-          className="w-full p-3 border-2 border-gray-400 rounded-xl bg-white text-gray-900 font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed" 
+          className="w-full p-3 border-2 border-gray-400 rounded-xl bg-white text-gray-900 font-medium focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:opacity-50 disabled:cursor-not-allowed" 
         />
       </div>
 
@@ -105,7 +105,7 @@ export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps)
         <button 
           type="submit" 
           disabled={loading}
-          className="flex-1 bg-green-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading ? (
             <>
@@ -116,7 +116,7 @@ export function FormDeposit({ accounts, onSuccess, onCancel }: FormDepositProps)
               Processing...
             </>
           ) : (
-            'Deposit Money'
+            'Withdraw Money'
           )}
         </button>
       </div>

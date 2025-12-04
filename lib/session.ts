@@ -76,10 +76,11 @@ export async function getSessionUser() {
 
   try {
     const user = await db.query.demoUsers.findFirst({
-      where: eq(demoUsers.id, userId as any),
+      where: eq(demoUsers.id, userId),
     });
     return user || null;
-  } catch {
+  } catch (error) {
+    console.error('Error fetching user from session:', error);
     return null;
   }
 }

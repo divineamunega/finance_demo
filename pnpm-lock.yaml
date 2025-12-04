@@ -35,6 +35,9 @@ importers:
       openai:
         specifier: ^4.77.0
         version: 4.104.0(zod@4.1.13)
+      postgres:
+        specifier: ^3.4.7
+        version: 3.4.7
       react:
         specifier: 19.2.0
         version: 19.2.0
@@ -5145,8 +5148,7 @@ snapshots:
 
   postgres-range@1.1.4: {}
 
-  postgres@3.4.7:
-    optional: true
+  postgres@3.4.7: {}
 
   prelude-ls@1.2.1: {}
 

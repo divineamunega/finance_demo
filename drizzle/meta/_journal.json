@@ -15,6 +15,13 @@
       "when": 1764331371245,
       "tag": "0001_hard_blue_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764556139526,
+      "tag": "0002_sturdy_cerebro",
+      "breakpoints": true
     }
   ]
 }

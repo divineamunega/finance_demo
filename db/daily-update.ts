@@ -78,7 +78,15 @@ async function simulateDailyUpdate() {
 
       for (let i = 0; i < transactionsToday; i++) {
         // Determine if this is income/credit or expense/debit
-        const isCredit = faker.number.float({ min: 0, max: 1 }) < 0.3; // 30% chance of credit
+        // Investment accounts should have more credits to grow over time
+        let isCredit: boolean;
+        if (account.type === 'investment') {
+          isCredit = faker.number.float({ min: 0, max: 1 }) < 0.7; // 70% chance of credit for investments
+        } else if (account.type === 'savings') {
+          isCredit = faker.number.float({ min: 0, max: 1 }) < 0.6; // 60% chance of credit for savings
+        } else {
+          isCredit = faker.number.float({ min: 0, max: 1 }) < 0.3; // 30% chance of credit for checking
+        }
         
         let category: string;
         if (account.type === 'checking') {
@@ -90,7 +98,9 @@ async function simulateDailyUpdate() {
             ? faker.helpers.arrayElement(['income', 'transfer', 'investment'])
             : faker.helpers.arrayElement(['transfer']);
         } else { // investment
-          category = faker.helpers.arrayElement(['investment', 'income', 'transfer']);
+          category = isCredit
+            ? faker.helpers.arrayElement(['investment', 'income', 'transfer'])
+            : faker.helpers.arrayElement(['transfer']);
         }
 
         const amount = generateTransactionAmount(category);
