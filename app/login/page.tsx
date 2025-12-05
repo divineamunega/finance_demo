@@ -25,53 +25,99 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
+        // Keep loading state active during navigation
         router.push('/');
       } else {
         setError('Invalid credentials');
+        setSubmitting(false);
       }
     } catch (error) {
       console.error('Login failed:', error);
       setError('Login failed. Please try again.');
-    } finally {
       setSubmitting(false);
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-8">
-      <div className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-12 max-w-md w-full border border-white/20">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent mb-4">
+    <div 
+      className="min-h-screen flex items-center justify-center p-8"
+      style={{ background: 'var(--color-background)' }}
+    >
+      <div 
+        className="rounded-lg p-10 max-w-md w-full"
+        style={{ 
+          background: 'var(--color-surface)',
+          border: '1px solid var(--color-border)',
+          boxShadow: 'var(--shadow-md)'
+        }}
+      >
+        <div className="text-center mb-10">
+          <h1 
+            className="text-3xl font-semibold mb-2"
+            style={{ color: 'var(--color-text-primary)' }}
+          >
             FinancePro
           </h1>
-          <p className="text-gray-600">Sign in to your account</p>
+          <p 
+            className="text-sm"
+            style={{ color: 'var(--color-text-secondary)' }}
+          >
+            Sign in to your account
+          </p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <div className="mb-5">
+            <label 
+              className="block text-sm font-medium mb-2"
+              style={{ color: 'var(--color-text-secondary)' }}
+            >
+              Email
+            </label>
             <input
               type="email"
               name="email"
               placeholder="Enter your email"
               required
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+              className="w-full px-4 py-2.5 rounded-md text-sm transition-colors"
+              style={{ 
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)'
+              }}
             />
           </div>
 
-          <div className="mb-8">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <div className="mb-6">
+            <label 
+              className="block text-sm font-medium mb-2"
+              style={{ color: 'var(--color-text-secondary)' }}
+            >
+              Password
+            </label>
             <input
               type="password"
               name="password"
               placeholder="Enter your password"
               required
-              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+              className="w-full px-4 py-2.5 rounded-md text-sm transition-colors"
+              style={{ 
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
+                color: 'var(--color-text-primary)'
+              }}
             />
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+            <div 
+              className="mb-5 p-3 rounded-md text-sm"
+              style={{ 
+                background: 'var(--color-danger-light)',
+                border: '1px solid var(--color-danger)',
+                color: 'var(--color-danger)'
+              }}
+            >
               {error}
             </div>
           )}
@@ -79,13 +125,20 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50"
+            className="w-full py-2.5 px-6 rounded-md font-medium text-sm transition-all disabled:opacity-50 hover:opacity-90"
+            style={{ 
+              background: 'var(--color-accent)',
+              color: '#FFFFFF'
+            }}
           >
             {submitting ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
+        <p 
+          className="text-center text-xs mt-8"
+          style={{ color: 'var(--color-text-tertiary)' }}
+        >
           Demo app - use any seeded user credentials
         </p>
       </div>

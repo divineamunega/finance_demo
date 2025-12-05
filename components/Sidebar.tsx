@@ -40,78 +40,110 @@ export default function Sidebar() {
   };
 
   if (loading) {
-    return <div className="w-64 bg-gray-900 h-screen fixed left-0 top-0" />;
+    return <div className="w-64 h-screen fixed left-0 top-0" style={{ background: 'var(--color-sidebar-bg)' }} />;
   }
 
   if (!user) {
-    return null; // Hide sidebar if not logged in
+    return null;
   }
 
   return (
-    <div className="w-64 bg-gray-900 text-white h-screen fixed left-0 top-0 flex flex-col">
+    <div 
+      className="w-64 h-screen fixed left-0 top-0 flex flex-col"
+      style={{ 
+        background: 'var(--color-sidebar-bg)',
+        borderRight: '1px solid var(--color-sidebar-border)'
+      }}
+    >
       {/* Logo/Brand */}
-      <div className="p-6 border-b border-gray-800">
-        <h1 className="text-2xl font-bold">Finance<span className="text-blue-400">Pro</span></h1>
-        <p className="text-gray-400 text-sm mt-1">Personal Dashboard</p>
+      <div className="px-6 py-8" style={{ borderBottom: '1px solid var(--color-sidebar-border)' }}>
+        <h1 className="text-xl font-semibold text-white tracking-tight">FinancePro</h1>
+        <p className="text-xs mt-1" style={{ color: 'var(--color-text-tertiary)' }}>Personal Banking</p>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4 space-y-2">
+      <nav className="flex-1 px-3 py-6 space-y-1">
         <Link
           href="/"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors relative ${
             isActive('/')
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-300 hover:bg-gray-800'
+              ? 'text-white'
+              : 'hover:bg-slate-700/50'
           }`}
+          style={{
+            background: isActive('/') ? 'var(--color-sidebar-active)' : 'transparent',
+            color: isActive('/') ? '#FFFFFF' : '#CBD5E1',
+            borderLeft: isActive('/') ? '3px solid var(--color-accent)' : '3px solid transparent',
+            paddingLeft: isActive('/') ? '0.625rem' : '0.75rem'
+          }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
           </svg>
-          <span className="font-medium">Dashboard</span>
+          <span>Dashboard</span>
         </Link>
 
         <Link
           href="/graph-analysis"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors relative ${
             isActive('/graph-analysis')
-              ? 'bg-blue-600 text-white'
-              : 'text-gray-300 hover:bg-gray-800'
+              ? 'text-white'
+              : 'hover:bg-slate-700/50'
           }`}
+          style={{
+            background: isActive('/graph-analysis') ? 'var(--color-sidebar-active)' : 'transparent',
+            color: isActive('/graph-analysis') ? '#FFFFFF' : '#CBD5E1',
+            borderLeft: isActive('/graph-analysis') ? '3px solid var(--color-accent)' : '3px solid transparent',
+            paddingLeft: isActive('/graph-analysis') ? '0.625rem' : '0.75rem'
+          }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
           </svg>
-          <span className="font-medium">Analysis</span>
+          <span>Analytics</span>
         </Link>
 
         <Link
           href="/chat"
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors relative ${
             isActive('/chat')
-              ? 'bg-purple-600 text-white'
-              : 'text-gray-300 hover:bg-gray-800'
+              ? 'text-white'
+              : 'hover:bg-slate-700/50'
           }`}
+          style={{
+            background: isActive('/chat') ? 'var(--color-sidebar-active)' : 'transparent',
+            color: isActive('/chat') ? '#FFFFFF' : '#CBD5E1',
+            borderLeft: isActive('/chat') ? '3px solid var(--color-accent)' : '3px solid transparent',
+            paddingLeft: isActive('/chat') ? '0.625rem' : '0.75rem'
+          }}
         >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
           </svg>
-          <span className="font-medium">Chat</span>
+          <span>AI Assistant</span>
         </Link>
       </nav>
 
       {/* User Info & Logout */}
-      <div className="p-4 border-t border-gray-800">
-        <div className="flex items-center gap-3 px-4 py-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors" onClick={logout}>
-          <img src={user.avatar} alt={user.name} className="w-10 h-10 rounded-full" />
+      <div className="p-4" style={{ borderTop: '1px solid var(--color-sidebar-border)' }}>
+        <button 
+          onClick={logout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md hover:bg-slate-700/50 transition-colors text-left"
+        >
+          <img 
+            src={user.avatar} 
+            alt={user.name} 
+            className="w-9 h-9 rounded-md" 
+            style={{ border: '1px solid var(--color-sidebar-border)' }}
+          />
           <div className="flex-1 min-w-0">
-            <div className="font-medium text-sm truncate">{user.name}</div>
-            <div className="text-gray-400 text-xs truncate">{user.email}</div>
+            <div className="text-sm font-medium text-white truncate">{user.name}</div>
+            <div className="text-xs truncate" style={{ color: 'var(--color-text-tertiary)' }}>{user.email}</div>
           </div>
-          <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-text-tertiary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
           </svg>
-        </div>
+        </button>
       </div>
     </div>
   );

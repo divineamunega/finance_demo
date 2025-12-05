@@ -57,62 +57,117 @@ export default function DashboardClient({
   };
 
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
+    <div className="min-h-screen p-8" style={{ background: 'var(--color-background)' }}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user.name}!</h1>
-          <p className="text-gray-600 mt-1">Here's your financial overview</p>
+          <h1 className="text-3xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>
+            Welcome back, {user.name}
+          </h1>
+          <p className="mt-1 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+            Here's your financial overview
+          </p>
         </div>
 
         {/* Account Cards */}
         <div className="grid grid-cols-1 gap-6 mb-8">
           {accounts.map((account: any) => (
-            <div key={account.id} className="bg-gradient-to-br from-blue-500 to-blue-700 p-6 rounded-xl shadow-lg text-white">
-              <div className="flex items-center justify-between mb-4">
+            <div 
+              key={account.id} 
+              className="p-6 rounded-lg"
+              style={{ 
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
+                boxShadow: 'var(--shadow-sm)'
+              }}
+            >
+              <div className="flex items-center justify-between mb-6">
                 <div>
-                  <p className="text-blue-100 text-sm font-medium">{account.name}</p>
-                  <p className="text-xs text-blue-200 capitalize">{account.type} Account</p>
+                  <p className="text-xs font-medium uppercase tracking-wide mb-1" style={{ color: 'var(--color-text-tertiary)' }}>
+                    {account.type} Account
+                  </p>
+                  <p className="text-sm font-medium" style={{ color: 'var(--color-text-secondary)' }}>
+                    {account.name}
+                  </p>
                 </div>
-                <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                <div 
+                  className="w-10 h-10 rounded-md flex items-center justify-center"
+                  style={{ background: 'var(--color-background)' }}
+                >
+                  <svg className="w-5 h-5" style={{ color: 'var(--color-text-secondary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                   </svg>
                 </div>
               </div>
-              <p className="text-3xl font-bold">${account.balance.toFixed(2)}</p>
-              <p className="text-blue-100 text-sm mt-1">{account.currency}</p>
+              <p className="text-4xl font-semibold font-mono" style={{ color: 'var(--color-text-primary)' }}>
+                ${account.balance.toFixed(2)}
+              </p>
+              <p className="text-xs mt-2" style={{ color: 'var(--color-text-tertiary)' }}>
+                {account.currency}
+              </p>
             </div>
           ))}
         </div>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div 
+            className="p-6 rounded-lg"
+            style={{ 
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+          >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Income</p>
-                <p className="text-3xl font-bold text-green-600 mt-2">${totalIncome.toFixed(2)}</p>
-                <p className="text-sm text-gray-500 mt-1">Last 6 months</p>
+              <div className="flex-1">
+                <p className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--color-text-tertiary)' }}>
+                  Total Income
+                </p>
+                <p className="text-3xl font-semibold font-mono mt-3" style={{ color: 'var(--color-success)' }}>
+                  ${totalIncome.toFixed(2)}
+                </p>
+                <p className="text-xs mt-2" style={{ color: 'var(--color-text-tertiary)' }}>
+                  Last 6 months
+                </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+              <div 
+                className="w-12 h-12 rounded-md flex items-center justify-center"
+                style={{ background: 'var(--color-success-light)' }}
+              >
+                <svg className="w-6 h-6" style={{ color: 'var(--color-success)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div 
+            className="p-6 rounded-lg"
+            style={{ 
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+          >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Expenses</p>
-                <p className="text-3xl font-bold text-red-600 mt-2">${totalExpenses.toFixed(2)}</p>
-                <p className="text-sm text-gray-500 mt-1">Last 6 months</p>
+              <div className="flex-1">
+                <p className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--color-text-tertiary)' }}>
+                  Total Expenses
+                </p>
+                <p className="text-3xl font-semibold font-mono mt-3" style={{ color: 'var(--color-danger)' }}>
+                  ${totalExpenses.toFixed(2)}
+                </p>
+                <p className="text-xs mt-2" style={{ color: 'var(--color-text-tertiary)' }}>
+                  Last 6 months
+                </p>
               </div>
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" />
+              <div 
+                className="w-12 h-12 rounded-md flex items-center justify-center"
+                style={{ background: 'var(--color-danger-light)' }}
+              >
+                <svg className="w-6 h-6" style={{ color: 'var(--color-danger)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
                 </svg>
               </div>
             </div>
@@ -121,39 +176,75 @@ export default function DashboardClient({
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <button onClick={() => setDepositModalOpen(true)} className="group text-left">
-            <div className="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all text-white">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xl font-bold">Deposit</h3>
-                <svg className="w-8 h-8 opacity-80 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          <button 
+            onClick={() => setDepositModalOpen(true)} 
+            className="text-left p-6 rounded-lg transition-all hover:shadow-md"
+            style={{ 
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)'
+            }}
+          >
+            <div className="flex items-center gap-4">
+              <div 
+                className="w-12 h-12 rounded-md flex items-center justify-center flex-shrink-0"
+                style={{ background: 'var(--color-success-light)' }}
+              >
+                <svg className="w-6 h-6" style={{ color: 'var(--color-success)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
               </div>
-              <p className="text-green-100 text-sm">Add funds to your account</p>
+              <div>
+                <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Deposit</h3>
+                <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Add funds to account</p>
+              </div>
             </div>
           </button>
 
-          <button onClick={() => setWithdrawModalOpen(true)} className="group text-left">
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all text-white">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xl font-bold">Withdraw</h3>
-                <svg className="w-8 h-8 opacity-80 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+          <button 
+            onClick={() => setWithdrawModalOpen(true)} 
+            className="text-left p-6 rounded-lg transition-all hover:shadow-md"
+            style={{ 
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)'
+            }}
+          >
+            <div className="flex items-center gap-4">
+              <div 
+                className="w-12 h-12 rounded-md flex items-center justify-center flex-shrink-0"
+                style={{ background: 'var(--color-danger-light)' }}
+              >
+                <svg className="w-6 h-6" style={{ color: 'var(--color-danger)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                 </svg>
               </div>
-              <p className="text-orange-100 text-sm">Withdraw from your account</p>
+              <div>
+                <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Withdraw</h3>
+                <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Remove funds</p>
+              </div>
             </div>
           </button>
 
-          <button onClick={() => setTransferModalOpen(true)} className="group text-left">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all text-white">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-xl font-bold">Transfer</h3>
-                <svg className="w-8 h-8 opacity-80 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          <button 
+            onClick={() => setTransferModalOpen(true)} 
+            className="text-left p-6 rounded-lg transition-all hover:shadow-md"
+            style={{ 
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)'
+            }}
+          >
+            <div className="flex items-center gap-4">
+              <div 
+                className="w-12 h-12 rounded-md flex items-center justify-center flex-shrink-0"
+                style={{ background: 'var(--color-accent-light)' }}
+              >
+                <svg className="w-6 h-6" style={{ color: 'var(--color-accent)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                 </svg>
               </div>
-              <p className="text-blue-100 text-sm">Transfer funds</p>
+              <div>
+                <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Transfer</h3>
+                <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Move funds</p>
+              </div>
             </div>
           </button>
         </div>
@@ -166,33 +257,64 @@ export default function DashboardClient({
 
         {/* Recent Transactions */}
         {recentTransactions.length > 0 && (
-          <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Recent Transactions</h3>
-            <div className="space-y-3">
+          <div 
+            className="p-6 rounded-lg"
+            style={{ 
+              background: 'var(--color-surface)',
+              border: '1px solid var(--color-border)',
+              boxShadow: 'var(--shadow-sm)'
+            }}
+          >
+            <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--color-text-primary)' }}>
+              Recent Transactions
+            </h3>
+            <div className="space-y-1">
               {recentTransactions.map((txn: any) => {
                 const isPositive = txn.amount > 0;
                 return (
-                  <div key={txn.id} className="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+                  <div 
+                    key={txn.id} 
+                    className="flex items-center justify-between p-3 rounded-md transition-colors hover:bg-slate-50"
+                  >
                     <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${isPositive ? 'bg-green-100' : 'bg-red-100'}`}>
-                        <svg className={`w-5 h-5 ${isPositive ? 'text-green-600' : 'text-red-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div 
+                        className="w-10 h-10 rounded-md flex items-center justify-center"
+                        style={{ 
+                          background: isPositive ? 'var(--color-success-light)' : 'var(--color-danger-light)'
+                        }}
+                      >
+                        <svg 
+                          className="w-5 h-5" 
+                          style={{ color: isPositive ? 'var(--color-success)' : 'var(--color-danger)' }}
+                          fill="none" 
+                          stroke="currentColor" 
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                        >
                           {isPositive ? (
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                           ) : (
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                           )}
                         </svg>
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900">{txn.merchant}</p>
-                        <p className="text-sm text-gray-500 capitalize">{txn.category}</p>
+                        <p className="font-medium text-sm" style={{ color: 'var(--color-text-primary)' }}>
+                          {txn.merchant}
+                        </p>
+                        <p className="text-xs capitalize" style={{ color: 'var(--color-text-tertiary)' }}>
+                          {txn.category}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className={`font-semibold ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                      <p 
+                        className="font-semibold font-mono text-sm"
+                        style={{ color: isPositive ? 'var(--color-success)' : 'var(--color-danger)' }}
+                      >
                         {isPositive ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
                       </p>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>
                         {new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                       </p>
                     </div>
@@ -203,24 +325,35 @@ export default function DashboardClient({
           </div>
         )}
 
-        {/* AI Insights Section - Optional */}
+        {/* AI Insights Section */}
         <div className="mt-8">
-          <Link href="/graph-analysis" className="group">
-            <div className="bg-gradient-to-br from-purple-50 to-blue-50 p-6 rounded-xl border border-purple-200 hover:border-purple-300 transition-all">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          <Link href="/graph-analysis">
+            <div 
+              className="p-6 rounded-lg transition-all hover:shadow-md"
+              style={{ 
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-border)'
+              }}
+            >
+              <div className="flex items-start gap-4">
+                <div 
+                  className="w-10 h-10 rounded-md flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'var(--color-accent-light)' }}
+                >
+                  <svg className="w-5 h-5" style={{ color: 'var(--color-accent)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Get AI-Powered Insights</h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    Click here to analyze your spending trends, get personalized recommendations, and discover insights about your financial habits.
+                  <h3 className="text-base font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>
+                    AI-Powered Insights
+                  </h3>
+                  <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+                    Analyze spending trends and get personalized financial recommendations
                   </p>
                 </div>
-                <svg className="w-6 h-6 text-purple-500 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg className="w-5 h-5 flex-shrink-0" style={{ color: 'var(--color-text-tertiary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
               </div>
             </div>

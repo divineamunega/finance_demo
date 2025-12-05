@@ -2,7 +2,8 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
-const COLORS = ['#3B82F6', '#8B5CF6', '#EC4899', '#F59E0B', '#10B981', '#6366F1', '#EF4444', '#14B8A6'];
+// Professional muted color palette
+const COLORS = ['#64748B', '#94A3B8', '#CBD5E1', '#475569', '#334155', '#1E293B', '#0F172A', '#E2E8F0'];
 
 interface SpendingPieChartProps {
   data: Array<{ category: string; total: number }>;
@@ -15,8 +16,17 @@ export default function SpendingPieChart({ data }: SpendingPieChartProps) {
   }));
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Spending by Category</h3>
+    <div 
+      className="p-6 rounded-lg"
+      style={{ 
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        boxShadow: 'var(--shadow-sm)'
+      }}
+    >
+      <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--color-text-primary)' }}>
+        Spending by Category
+      </h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie

@@ -53,20 +53,37 @@ export function FormWithdraw({ accounts, onSuccess, onCancel }: FormWithdrawProp
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <div 
+          className="px-4 py-3 rounded-md text-sm"
+          style={{ 
+            background: 'var(--color-danger-light)',
+            border: '1px solid var(--color-danger)',
+            color: 'var(--color-danger)'
+          }}
+        >
           {error}
         </div>
       )}
 
       <div>
-        <label className="block text-sm font-semibold text-gray-900 mb-2">Account</label>
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{ color: 'var(--color-text-secondary)' }}
+        >
+          Account
+        </label>
         <select 
           name="accountId" 
           required 
           disabled={loading}
-          className="w-full p-3 border-2 border-gray-400 rounded-xl bg-white text-gray-900 font-medium focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full px-3 py-2.5 rounded-md text-sm transition-colors disabled:opacity-50"
+          style={{ 
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text-primary)'
+          }}
         >
           <option value="">Select account</option>
           {accounts.map(acc => (
@@ -78,7 +95,12 @@ export function FormWithdraw({ accounts, onSuccess, onCancel }: FormWithdrawProp
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-900 mb-2">Amount</label>
+        <label 
+          className="block text-sm font-medium mb-2"
+          style={{ color: 'var(--color-text-secondary)' }}
+        >
+          Amount
+        </label>
         <input 
           type="number" 
           name="amount" 
@@ -87,17 +109,27 @@ export function FormWithdraw({ accounts, onSuccess, onCancel }: FormWithdrawProp
           required 
           disabled={loading}
           placeholder="0.00"
-          className="w-full p-3 border-2 border-gray-400 rounded-xl bg-white text-gray-900 font-medium focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:opacity-50 disabled:cursor-not-allowed" 
+          className="w-full px-3 py-2.5 rounded-md text-sm font-mono transition-colors disabled:opacity-50"
+          style={{ 
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            color: 'var(--color-text-primary)'
+          }}
         />
       </div>
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 pt-2">
         {onCancel && (
           <button 
             type="button" 
             onClick={onCancel}
             disabled={loading}
-            className="flex-1 bg-gray-100 text-gray-700 py-3 px-6 rounded-xl font-semibold hover:bg-gray-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all disabled:opacity-50"
+            style={{ 
+              background: 'var(--color-background)',
+              border: '1px solid var(--color-border)',
+              color: 'var(--color-text-secondary)'
+            }}
           >
             Cancel
           </button>
@@ -105,18 +137,22 @@ export function FormWithdraw({ accounts, onSuccess, onCancel }: FormWithdrawProp
         <button 
           type="submit" 
           disabled={loading}
-          className="flex-1 bg-orange-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-orange-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+          style={{ 
+            background: 'var(--color-danger)',
+            color: '#FFFFFF'
+          }}
         >
           {loading ? (
             <>
-              <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
               Processing...
             </>
           ) : (
-            'Withdraw Money'
+            'Withdraw'
           )}
         </button>
       </div>

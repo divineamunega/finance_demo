@@ -14,17 +14,34 @@ export default function MonthlyTrendChart({ data }: MonthlyTrendChartProps) {
   }));
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">Monthly Trends</h3>
+    <div 
+      className="p-6 rounded-lg"
+      style={{ 
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+        boxShadow: 'var(--shadow-sm)'
+      }}
+    >
+      <h3 className="text-lg font-semibold mb-6" style={{ color: 'var(--color-text-primary)' }}>
+        Monthly Trends
+      </h3>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
-          <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
-          <Legend />
-          <Line type="monotone" dataKey="Income" stroke="#10B981" strokeWidth={2} />
-          <Line type="monotone" dataKey="Expenses" stroke="#EF4444" strokeWidth={2} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+          <XAxis dataKey="month" tick={{ fill: 'var(--color-text-tertiary)', fontSize: 12 }} />
+          <YAxis tick={{ fill: 'var(--color-text-tertiary)', fontSize: 12 }} />
+          <Tooltip 
+            formatter={(value: number) => `$${value.toFixed(2)}`}
+            contentStyle={{ 
+              background: 'var(--color-surface)', 
+              border: '1px solid var(--color-border)',
+              borderRadius: '6px',
+              fontSize: '14px'
+            }}
+          />
+          <Legend wrapperStyle={{ fontSize: '14px' }} />
+          <Line type="monotone" dataKey="Income" stroke="#059669" strokeWidth={2} dot={false} />
+          <Line type="monotone" dataKey="Expenses" stroke="#DC2626" strokeWidth={2} dot={false} />
         </LineChart>
       </ResponsiveContainer>
     </div>
