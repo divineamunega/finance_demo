@@ -185,6 +185,16 @@ export async function POST(request: NextRequest) {
       role: 'system' as const,
       content: `You are a helpful financial assistant for a personal finance app. You help users understand their spending, provide budgeting advice, and answer questions about their financial data.
 
+You have access to the following tools to help users manage their finances:
+- get_account_balance: Check account balances
+- withdraw_money: Withdraw funds from accounts
+- transfer_money: Transfer money between accounts or to other users
+
+Use these tools when users ask you to perform financial operations. For example:
+- "What's my balance?" → use get_account_balance
+- "Withdraw $50" → use withdraw_money
+- "Send $100 to john@example.com" → use transfer_money
+
 ${financialContext ? `Current financial context:\n${financialContext}` : 'No financial data available yet.'}
 
 Be conversational, helpful, and provide actionable advice. Keep responses concise (2-3 paragraphs max).`,
@@ -201,14 +211,95 @@ Be conversational, helpful, and provide actionable advice. Keep responses concis
       apiKey: process.env.OPENROUTER_API_KEY || process.env.OPENAI_API_KEY || '',
     });
 
-    const { text: assistantMessage } = await generateText({
+    // Import financial tools
+    const { default: financialTools } = await import('@/lib/openai/tools');
+    const { executeGetAccountBalance, executeWithdraw, executeTransfer } = await import('@/lib/openai/executeTools');
+
+    // First AI call with tools
+    const { text: assistantMessage, toolCalls } = await generateText({
       model: openrouter("meta-llama/llama-3.3-70b-instruct:free"),
       messages: [systemMessage, ...conversationHistory],
+      tools: financialTools.reduce((acc, tool) => {
+        acc[tool.function.name] = {
+          description: tool.function.description,
+          parameters: tool.function.parameters,
+        };
+        return acc;
+      }, {} as any),
       temperature: 0.7,
-
     });
 
-    if (!assistantMessage) {
+    let finalMessage = assistantMessage;
+    let toolResults: any[] = [];
+
+    // Execute any tool calls
+    if (toolCalls && toolCalls.length > 0) {
+      for (const toolCall of toolCalls) {
+        // Type assertion to access tool call properties
+        const tc = toolCall as any;
+        const toolName = tc.toolName;
+        const args = tc.args || {};
+        let result;
+
+        try {
+          switch (toolName) {
+            case 'get_account_balance':
+              result = await executeGetAccountBalance(userId, args.accountId);
+              break;
+            case 'withdraw_money':
+              result = await executeWithdraw(userId, args.accountId, args.amount);
+              break;
+            case 'transfer_money':
+              result = await executeTransfer(
+                userId,
+                args.fromAccountId,
+                args.amount,
+                args.toAccountId,
+                args.recipientEmail,
+                args.description
+              );
+              break;
+            default:
+              result = { success: false, error: 'Unknown tool' };
+          }
+        } catch (error) {
+          result = {
+            success: false,
+            error: error instanceof Error ? error.message : 'Tool execution failed',
+          };
+        }
+
+        toolResults.push({
+          toolName,
+          args,
+          result,
+        });
+      }
+
+
+
+      // Second AI call with tool results to generate final response
+      const toolResultMessages = toolResults.map(tr => ({
+        role: 'tool' as const,
+        content: JSON.stringify(tr.result),
+        toolCallId: tr.toolName,
+      }));
+
+      const { text: finalResponse } = await generateText({
+        model: openrouter("meta-llama/llama-3.3-70b-instruct:free"),
+        messages: [
+          systemMessage,
+          ...conversationHistory,
+          { role: 'assistant' as const, content: assistantMessage },
+          ...toolResultMessages,
+        ],
+        temperature: 0.7,
+      });
+
+      finalMessage = finalResponse || assistantMessage;
+    }
+
+    if (!finalMessage) {
       throw new Error('No response from AI');
     }
 
@@ -216,7 +307,7 @@ Be conversational, helpful, and provide actionable advice. Keep responses concis
     const savedMessage = await db.insert(chatMessages).values({
       sessionId: currentSessionId,
       role: 'assistant',
-      content: assistantMessage,
+      content: finalMessage,
     }).returning();
 
     // ===== RETURN RESPONSE =====
@@ -227,13 +318,15 @@ Be conversational, helpful, and provide actionable advice. Keep responses concis
         message: {
           id: savedMessage[0].id,
           role: 'assistant',
-          content: assistantMessage,
+          content: finalMessage,
           createdAt: savedMessage[0].createdAt,
         },
+        tool_calls: toolResults.length > 0 ? toolResults : undefined,
         context_used: {
           accounts_count: userAccounts.length,
           recent_transactions_count: recentTransactions.length,
           has_summary: latestSummary.length > 0,
+          tools_executed: toolResults.length,
         },
       },
     });

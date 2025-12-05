@@ -8,6 +8,11 @@ interface Message {
   content: string;
   id?: string;
   createdAt?: Date;
+  tool_calls?: Array<{
+    toolName: string;
+    args: any;
+    result: any;
+  }>;
 }
 
 interface ChatBoxProps {
@@ -65,6 +70,7 @@ export default function ChatBox({ userId, sessionId, onSessionCreated }: ChatBox
         content: response.message.content,
         id: response.message.id,
         createdAt: response.message.createdAt,
+        tool_calls: response.tool_calls,
       }]);
     } catch (error) {
       console.error('Error sending message:', error);
@@ -109,6 +115,21 @@ export default function ChatBox({ userId, sessionId, onSessionCreated }: ChatBox
                   : 'bg-gray-100 text-gray-900'
               }`}
             >
+              {/* Show tool execution indicators */}
+              {message.tool_calls && message.tool_calls.length > 0 && (
+                <div className="mb-2 pb-2 border-b border-gray-300">
+                  {message.tool_calls.map((toolCall, idx) => (
+                    <div key={idx} className="text-xs mb-1 flex items-center gap-2">
+                      <span className="font-semibold">🔧 {toolCall.toolName}</span>
+                      {toolCall.result.success ? (
+                        <span className="text-green-600">✓ Success</span>
+                      ) : (
+                        <span className="text-red-600">✗ Failed</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
               <p className="whitespace-pre-wrap">{message.content}</p>
             </div>
           </div>

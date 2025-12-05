@@ -2,6 +2,8 @@
 
 import SpendingChart from '@/components/SpendingChart';
 import CategoryBreakdown from '@/components/CategoryBreakdown';
+import IncomeExpenseComparison from '@/components/IncomeExpenseComparison';
+import MarkdownText from '@/components/MarkdownText';
 
 interface AnalyticsClientProps {
   analysis: {
@@ -125,6 +127,21 @@ export default function AnalyticsClient({ analysis }: AnalyticsClientProps) {
           </div>
         </div>
 
+        {/* Income vs Expenses Comparison */}
+        <div 
+          className="p-6 rounded-lg"
+          style={{ 
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-border)',
+            boxShadow: 'var(--shadow-sm)'
+          }}
+        >
+          <h2 className="text-lg font-semibold mb-4" style={{ color: 'var(--color-text-primary)' }}>
+            Income vs Expenses
+          </h2>
+          <IncomeExpenseComparison monthlyData={analysis.monthlyBreakdown} />
+        </div>
+
         {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div 
@@ -232,9 +249,7 @@ export default function AnalyticsClient({ analysis }: AnalyticsClientProps) {
                 AI Insights
               </h2>
             </div>
-            <p className="text-sm whitespace-pre-wrap leading-relaxed" style={{ color: 'var(--color-text-secondary)' }}>
-              {analysis.insights}
-            </p>
+            <MarkdownText content={analysis.insights} />
           </div>
         )}
       </div>
