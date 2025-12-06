@@ -1,296 +1,313 @@
-# FinancePro - Personal Finance Management Dashboard
+# Finance Demo - AI-Powered Personal Finance Dashboard
 
-A modern, AI-powered personal finance management dashboard built with Next.js, React, and PostgreSQL. Track accounts, transactions, analyze spending patterns, and get intelligent financial insights through an interactive chat interface.
+A modern, world-class personal finance management application with AI chat capabilities, financial tools, and beautiful data visualizations.
 
-## 🎯 Features
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 
-### Dashboard & Accounts
+## ✨ Features
 
-- **Multi-Account Management** - View and switch between checking, savings, and investment accounts
-- **Real-time Balance Tracking** - Monitor total balance across all accounts
-- **Account Types** - Support for multiple account types (checking, savings, investment)
+### 🎨 Premium UI/UX
+- **World-class chat interface** with glassmorphism, gradients, and smooth animations
+- **Responsive design** that works beautifully on all devices
+- **Modern aesthetics** with slate-based color palette and premium interactions
+- **Interactive visualizations** using Recharts for spending analysis
 
-### Transactions & Analytics
+### 💬 AI Financial Assistant
+- **Natural language chat** - Ask questions about your finances conversationally
+- **Financial tools integration** - Check balance, withdraw, and transfer money through chat
+- **Intelligent responses** - Powered by OpenAI GPT-4o-mini
+- **Tool execution indicators** - Visual feedback when AI performs financial operations
+- **Suggested prompts** - Quick-start buttons for common queries
 
-- **Transaction History** - Detailed 6-month transaction records with merchant, category, and amount
-- **Monthly Trend Chart** - Visualize spending patterns over time
-- **Category Breakdown** - Pie chart showing spending distribution by category
-- **Spending Analysis** - Comprehensive spending patterns and trends
-- **Anomaly Detection** - AI-powered detection of unusual transactions
+### 📊 Financial Management
+- **Account overview** - Real-time balance tracking across all accounts
+- **Transaction history** - Detailed 6-month transaction records
+- **Spending analytics** - Monthly trends and category breakdowns
+- **Anomaly detection** - AI-powered unusual transaction identification
 
-### AI Chat & Analysis
-
-- **Intelligent Chat Interface** - Ask questions about your finances naturally
-- **Automated Analysis** - Generate financial summaries and insights using OpenAI
-- **Natural Language Responses** - Get human-friendly explanations of your financial data
-- **Chat History** - Persistent conversation storage and retrieval
-
-### Financial Operations
-
-- **Deposits** - Add funds to accounts
-- **Withdrawals** - Withdraw funds with transaction tracking
-- **Transfers** - Transfer money between your accounts
-- **Daily Simulations** - Automated daily transaction simulation for demo data
-
-### User Management
-
-- **Demo Accounts** - 3 pre-configured demo users with realistic transaction history
-- **Session Management** - Secure user sessions and authentication
-- **Multi-User Support** - Each user has isolated financial data
-
-## 🏗️ Tech Stack
-
-- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes, Drizzle ORM
-- **Database**: PostgreSQL (Neon)
-- **AI**: OpenRouter (OpenAI integration)
-- **Visualization**: Recharts for charts and graphs
-- **Data Generation**: Faker.js for realistic demo data
-
-## 📋 Project Structure
-
-```
-finance_demo/
-├── app/
-│   ├── (protected)/         # Protected dashboard routes
-│   │   ├── page.tsx         # Main dashboard
-│   │   ├── chat/            # Chat interface
-│   │   └── graph-analysis/  # Financial graphs
-│   ├── (public)/            # Public routes
-│   ├── api/                 # API endpoints
-│   │   ├── accounts/        # Account operations
-│   │   ├── transactions/    # Transaction queries
-│   │   ├── chat/            # Chat API with OpenAI
-│   │   ├── analyze/         # Financial analysis
-│   │   ├── deposit/         # Deposit endpoint
-│   │   ├── withdraw/        # Withdrawal endpoint
-│   │   ├── transfer/        # Transfer endpoint
-│   │   └── ...
-│   └── login/               # Authentication
-├── components/              # React components
-│   ├── ChatBox.tsx          # Chat interface
-│   ├── MonthlyTrendChart.tsx
-│   ├── SpendingPieChart.tsx
-│   ├── CategoryBreakdown.tsx
-│   └── ...
-├── db/
-│   ├── schema.ts            # Drizzle schema
-│   ├── seed.ts              # Database seeding
-│   ├── migrate.ts           # Migration runner
-│   └── daily-update.ts      # Simulation script
-├── lib/
-│   ├── openai/              # OpenAI integration
-│   ├── session.ts           # Session management
-│   └── api.ts               # API helpers
-└── context/                 # React context providers
-```
+### 🔧 Financial Operations
+- **Deposits** - Add funds to your accounts
+- **Withdrawals** - Withdraw money with full transaction tracking
+- **Transfers** - Send money to other users or between your accounts
+- **Real-time updates** - Instant balance and transaction updates
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-
 - Node.js 18+ and pnpm
-- PostgreSQL 12+ (or use Neon for PostgreSQL as a Service)
+- PostgreSQL database (or Neon for serverless PostgreSQL)
+- OpenRouter API key (for AI features)
 
 ### Installation
 
-1. **Clone the repository**
-
+1. **Clone and install**
 ```bash
 cd finance_demo
-```
-
-2. **Install dependencies**
-
-```bash
 pnpm install
 ```
 
-3. **Set up environment variables**
-   Create `.env.local`:
+2. **Environment setup**
 
-```
+Create `.env.local`:
+```env
 DATABASE_URL=postgresql://user:password@localhost:5432/finance_demo
-OPENROUTER_API_KEY=your_openrouter_key
+OPENROUTER_API_KEY=your_openrouter_api_key
 ```
 
-For Neon PostgreSQL, use their connection string format.
-
-4. **Generate migrations**
-
+3. **Database setup**
 ```bash
-pnpm db:generate
+pnpm db:generate  # Generate migrations
+pnpm db:migrate   # Run migrations
+pnpm db:seed      # Seed with demo data
 ```
 
-5. **Run migrations**
-
-```bash
-pnpm db:migrate
-```
-
-6. **Seed database with demo data**
-
-```bash
-pnpm db:seed
-```
-
-7. **Start the development server**
-
+4. **Start development server**
 ```bash
 pnpm dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000)
 
-## 📖 Available Scripts
+## 📖 Scripts
 
-| Command                | Description                        |
-| ---------------------- | ---------------------------------- |
-| `pnpm dev`             | Start development server           |
-| `pnpm build`           | Build for production               |
-| `pnpm start`           | Start production server            |
-| `pnpm lint`            | Run ESLint                         |
-| `pnpm db:generate`     | Generate Drizzle migrations        |
-| `pnpm db:migrate`      | Apply migrations                   |
-| `pnpm db:seed`         | Seed demo data                     |
-| `pnpm db:daily-update` | Add simulated daily transactions   |
-| `pnpm db:studio`       | Open Drizzle Studio (database GUI) |
+| Command | Description |
+|---------|-------------|
+| `pnpm dev` | Start development server |
+| `pnpm build` | Build for production |
+| `pnpm start` | Start production server |
+| `pnpm lint` | Run ESLint |
+| `pnpm db:generate` | Generate Drizzle migrations |
+| `pnpm db:migrate` | Apply database migrations |
+| `pnpm db:seed` | Seed database with demo data |
+| `pnpm db:daily-update` | Simulate daily transactions |
+| `pnpm db:studio` | Open Drizzle Studio (DB GUI) |
 
 ## 👥 Demo Users
 
-Three pre-configured demo users are available for testing:
+Three pre-configured users with realistic financial data:
 
-1. **Sarah Johnson** - sarah.johnson@demo.com
-2. **Michael Chen** - michael.chen@demo.com
-3. **Emily Rodriguez** - emily.rodriguez@demo.com
+1. **Sarah Johnson** - `sarah.johnson@demo.com`
+2. **Michael Chen** - `michael.chen@demo.com`  
+3. **Emily Rodriguez** - `emily.rodriguez@demo.com`
 
 Each user has:
+- Multiple accounts (checking, savings, investment)
+- 6 months of transaction history
+- Categorized spending data
+- AI-generated financial summaries
 
-- 2-3 accounts (checking, savings, investment)
-- 6 months of realistic transaction history
-- Categorized transactions (groceries, utilities, entertainment, etc.)
+## 🏗️ Tech Stack
 
-## 🔌 API Endpoints
+### Frontend
+- **Next.js 16** - React framework with App Router
+- **React 19** - Latest React with concurrent features
+- **TypeScript 5** - Type-safe development
+- **Tailwind CSS 4** - Utility-first styling
 
-### Authentication
+### Backend
+- **Next.js API Routes** - Serverless API endpoints
+- **Drizzle ORM** - Type-safe database queries
+- **PostgreSQL** - Reliable relational database
+- **Neon** - Serverless PostgreSQL (optional)
 
-- `POST /api/login` - User login
-- `POST /api/logout` - User logout
-- `GET /api/me` - Get current user
-
-### Accounts & Data
-
-- `GET /api/accounts` - List user accounts
-- `GET /api/transactions` - Get transactions
-- `GET /api/dashboard` - Get dashboard data
-- `GET /api/demo-users` - List demo users
-
-### Operations
-
-- `POST /api/deposit` - Add deposit
-- `POST /api/withdraw` - Perform withdrawal
-- `POST /api/transfer` - Transfer between accounts
-
-### AI Features
-
-- `POST /api/chat` - Chat with AI about finances
-- `POST /api/analyze` - Generate financial analysis
-
-For detailed API documentation, see [API.md](./API.md)
+### AI & Data
+- **Vercel AI SDK** - AI tool calling and streaming
+- **OpenRouter** - Multi-model LLM gateway
+- **OpenAI GPT-4o-mini** - Fast, cost-effective AI model
+- **Recharts** - Beautiful data visualizations
+- **Faker.js** - Realistic demo data generation
 
 ## 🤖 AI Features
 
 ### Chat Interface
+The AI chat assistant can:
+- Answer questions about your finances naturally
+- Execute financial operations (balance checks, withdrawals, transfers)
+- Provide spending insights and recommendations
+- Maintain conversation context across messages
 
-- Natural language questions about transactions, accounts, and spending
-- Maintains conversation history per session
-- Provides contextual financial insights
-- Integrates with OpenRouter for LLM inference
+### Financial Tools
+Three AI-powered tools integrated with the chat:
 
-### Financial Analysis
+1. **`get_account_balance`** - Check account balances
+2. **`withdraw_money`** - Withdraw funds from accounts
+3. **`transfer_money`** - Transfer money between accounts or to other users
 
-- Automated spending pattern analysis
-- Category-based transaction summaries
-- Anomaly detection for unusual transactions
-- Natural language financial reports
+Tools are executed automatically when the AI determines they're needed based on user requests.
+
+### Implementation
+- Uses Vercel AI SDK's `generateText` with tool calling
+- Zod schemas for type-safe tool parameters
+- Automatic tool execution with result feedback
+- Natural language response generation
+
+## 📁 Project Structure
+
+```
+finance_demo/
+├── app/
+│   ├── (protected)/          # Protected dashboard routes
+│   │   ├── page.tsx          # Main dashboard
+│   │   ├── chat/             # AI chat interface
+│   │   └── graph-analysis/   # Financial visualizations
+│   ├── api/                  # API endpoints
+│   │   ├── chat/             # AI chat endpoint
+│   │   ├── accounts/         # Account operations
+│   │   ├── transactions/     # Transaction queries
+│   │   ├── deposit/          # Deposit endpoint
+│   │   ├── withdraw/         # Withdrawal endpoint
+│   │   └── transfer/         # Transfer endpoint
+│   └── login/                # Authentication
+├── components/               # React components
+│   ├── ChatBox.tsx           # Premium chat interface
+│   ├── MonthlyTrendChart.tsx # Spending trends
+│   ├── SpendingPieChart.tsx  # Category breakdown
+│   └── ...
+├── lib/
+│   ├── ai/                   # AI integration
+│   │   ├── chat.ts           # Chat processing
+│   │   ├── tools.ts          # Financial tools
+│   │   ├── executeTools.ts   # Tool execution
+│   │   └── client.ts         # AI client setup
+│   ├── session.ts            # Session management
+│   └── api.ts                # API helpers
+├── db/
+│   ├── schema.ts             # Database schema
+│   ├── seed.ts               # Data seeding
+│   ├── migrate.ts            # Migration runner
+│   └── daily-update.ts       # Transaction simulator
+└── context/                  # React context providers
+```
 
 ## 🗄️ Database Schema
 
-### Tables
+### Core Tables
+- **`demo_users`** - User accounts and profiles
+- **`accounts`** - Bank/investment accounts per user
+- **`transactions`** - Transaction records with categories
+- **`chat_sessions`** - Chat conversation sessions
+- **`chat_messages`** - Individual chat messages
+- **`messages`** - System notifications
+- **`summaries`** - Cached financial analysis
 
-- **demo_users** - User accounts and authentication
-- **accounts** - Bank/investment accounts per user
-- **transactions** - Transaction records with metadata
-- **messages** - Notifications and alerts
-- **summaries** - Cached financial analysis results
-- **chatSessions** - Chat conversation storage
-- **chatMessages** - Individual chat messages
+## 🔌 API Endpoints
 
-## 🔐 Security Notes
+### Authentication
+- `POST /api/login` - User login
+- `POST /api/logout` - User logout
+- `GET /api/me` - Get current user
 
-⚠️ **Demo Application** - This is a demonstration app. In production:
+### Financial Data
+- `GET /api/accounts` - List user accounts
+- `GET /api/transactions` - Get transaction history
+- `GET /api/dashboard` - Get dashboard summary
 
-- Implement proper authentication (OAuth, JWT)
-- Hash passwords with bcrypt
-- Add rate limiting
-- Implement CSRF protection
-- Use HTTPS
-- Validate all inputs
-- Add authorization checks
+### Operations
+- `POST /api/deposit` - Add deposit
+- `POST /api/withdraw` - Withdraw funds
+- `POST /api/transfer` - Transfer money
 
-## 🛠️ Development
+### AI Features
+- `POST /api/chat` - Chat with AI assistant
+- `POST /api/analyze` - Generate financial analysis
 
-### Database Visualization
+## 🎨 Design System
 
-Open Drizzle Studio to view and edit data:
+### Color Palette
+- **Background**: Slate-50 to Slate-100 gradients
+- **Surfaces**: White with glassmorphism effects
+- **Text**: Slate-900 (primary), Slate-600 (secondary)
+- **Accents**: Slate-700 to Slate-900 gradients
+- **Success**: Emerald-600
+- **Error**: Red-600
 
-```bash
-pnpm db:studio
-```
+### Typography
+- **Font**: Inter (sans-serif), JetBrains Mono (monospace)
+- **Scale**: 12px to 32px with consistent line heights
 
-### Adding Transactions
+### Components
+- Glassmorphism with backdrop blur
+- Smooth animations (300ms ease-out)
+- Rounded corners (8px, 12px, 16px)
+- Subtle shadows for depth
 
-Simulate daily transactions:
+## 🔐 Security
 
-```bash
-pnpm db:daily-update
-```
+⚠️ **This is a demo application**. For production use:
 
-### Type Safety
-
-The project uses TypeScript for full type safety. All database queries are type-safe through Drizzle ORM.
-
-## 📦 Dependencies
-
-- **Next.js 16** - React framework
-- **React 19** - UI library
-- **Drizzle ORM** - Type-safe database ORM
-- **PostgreSQL** - Database
-- **Recharts** - Chart library
-- **OpenRouter** - LLM API provider
-- **Faker.js** - Data generation
-- **Tailwind CSS** - Styling
+- [ ] Implement proper authentication (OAuth, JWT)
+- [ ] Hash passwords with bcrypt
+- [ ] Add rate limiting on API endpoints
+- [ ] Implement CSRF protection
+- [ ] Use HTTPS in production
+- [ ] Validate and sanitize all inputs
+- [ ] Add authorization checks
+- [ ] Implement prompt injection defenses for AI features
+- [ ] Add transaction limits and confirmations
+- [ ] Enable audit logging
 
 ## 🚀 Deployment
 
-### Deploy to Vercel (Recommended)
-
+### Vercel (Recommended)
 ```bash
 vercel deploy
 ```
 
-### Deploy to Other Platforms
+### Environment Variables
+Set these in your deployment platform:
+- `DATABASE_URL` - PostgreSQL connection string
+- `OPENROUTER_API_KEY` - OpenRouter API key
 
-The app can run on any Node.js 18+ hosting (Railway, Render, Fly.io, etc.)
+### Database
+Use Neon for serverless PostgreSQL or any PostgreSQL 12+ provider.
 
-## 📝 License
+## 🛠️ Development
 
-This project is open source.
+### Type Safety
+Full TypeScript coverage with strict mode enabled. All database queries are type-safe through Drizzle ORM.
+
+### Database Management
+```bash
+pnpm db:studio  # Open Drizzle Studio GUI
+```
+
+### Adding Test Data
+```bash
+pnpm db:daily-update  # Simulate daily transactions
+```
+
+## 📚 Documentation
+
+- [API Documentation](./API.md) - Detailed API endpoint docs
+- [Quick Start Guide](./QUICKSTART.md) - Step-by-step setup
+- [Database Schema](./DATABASE.md) - Database structure details
+- [Dashboard Redesign](./DASHBOARD_REDESIGN.md) - UI/UX design notes
 
 ## 🤝 Contributing
 
-Contributions welcome! Please feel free to submit pull requests.
+Contributions are welcome! Please feel free to submit pull requests.
 
-## 📞 Support
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-For issues and questions, please check the [API documentation](./API.md) or [Quick Start Guide](./QUICKSTART.md).
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+## 🙏 Acknowledgments
+
+- Built with [Next.js](https://nextjs.org/)
+- AI powered by [OpenRouter](https://openrouter.ai/)
+- Database by [Neon](https://neon.tech/)
+- Charts by [Recharts](https://recharts.org/)
+- Icons and UI inspiration from modern fintech apps
+
+---
+
+**Made with ❤️ using Next.js, React, and AI**
