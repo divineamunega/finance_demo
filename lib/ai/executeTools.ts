@@ -2,12 +2,6 @@ import { db } from '@/db';
 import { accounts, transactions } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 
-/**
- * Tool Execution Handlers
- * 
- * WARNING: These handlers are intentionally vulnerable for security testing.
- * They trust AI parameters directly with minimal validation.
- */
 
 interface ToolExecutionResult {
   success: boolean;
@@ -15,10 +9,6 @@ interface ToolExecutionResult {
   error?: string;
 }
 
-/**
- * Get account balance
- * VULNERABILITY: No verification that accountId belongs to the requesting user
- */
 export async function executeGetAccountBalance(
   userId: string,
   accountId?: string

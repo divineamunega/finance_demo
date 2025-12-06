@@ -1,6 +1,7 @@
 'use client';
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import { Payload } from 'recharts/types/component/DefaultTooltipContent';
 
 interface CategoryData {
   category: string;
@@ -34,6 +35,86 @@ function getCategoryColor(category: string, index: number): string {
   return CATEGORY_COLORS[category.toLowerCase()] || FALLBACK_COLORS[index % FALLBACK_COLORS.length];
 }
 
+interface ChartData {
+  name: string;
+  value: number;
+  percentage: string;
+  color: string;
+}
+
+interface RenderLabelProps {
+  percentage: string;
+}
+
+// Custom label renderer
+const renderLabel = (entry: RenderLabelProps) => {
+  const percent = parseFloat(entry.percentage);
+  // Only show label if slice is > 5%
+  if (percent > 5) {
+    return `${percent}%`;
+  }
+  return '';
+};
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: Payload<ChartData>[];
+}
+
+// Custom tooltip
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    if (!data) return null;
+    return (
+      <div 
+        className="px-3 py-2 rounded-md"
+        style={{ 
+          background: 'var(--color-surface)',
+          border: '1px solid var(--color-border)',
+          boxShadow: 'var(--shadow-sm)'
+        }}
+      >
+        <p className="text-sm font-medium mb-1" style={{ color: 'var(--color-text-primary)' }}>
+          {data.name}
+        </p>
+        <p className="text-xs font-mono" style={{ color: 'var(--color-text-secondary)' }}>
+          ${data.value.toFixed(2)}
+        </p>
+        <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>
+          {data.percentage}% of total
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
+interface RenderLegendProps {
+  payload?: Payload[];
+}
+
+// Custom legend
+const renderLegend = (props: RenderLegendProps) => {
+  const { payload } = props;
+  if (!payload) return null;
+  return (
+    <div className="flex flex-wrap gap-3 justify-center mt-4">
+      {payload.map((entry, index: number) => (
+        <div key={`legend-${index}`} className="flex items-center gap-2">
+          <div 
+            className="w-3 h-3 rounded-sm"
+            style={{ background: entry.color }}
+          />
+          <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+            {entry.value}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function CategoryBreakdown({ data }: CategoryBreakdownProps) {
   if (!data || data.length === 0) {
     return (
@@ -52,70 +133,12 @@ export default function CategoryBreakdown({ data }: CategoryBreakdownProps) {
   const total = data.reduce((sum, item) => sum + item.total, 0);
 
   // Prepare chart data with percentages
-  const chartData = data.map((item, index) => ({
+  const chartData: ChartData[] = data.map((item, index) => ({
     name: item.category.charAt(0).toUpperCase() + item.category.slice(1),
     value: item.total,
     percentage: ((item.total / total) * 100).toFixed(1),
     color: getCategoryColor(item.category, index),
   }));
-
-  // Custom label renderer
-  const renderLabel = (entry: any) => {
-    const percent = parseFloat(entry.percentage);
-    // Only show label if slice is > 5%
-    if (percent > 5) {
-      return `${percent}%`;
-    }
-    return '';
-  };
-
-  // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div 
-          className="px-3 py-2 rounded-md"
-          style={{ 
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-border)',
-            boxShadow: 'var(--shadow-sm)'
-          }}
-        >
-          <p className="text-sm font-medium mb-1" style={{ color: 'var(--color-text-primary)' }}>
-            {data.name}
-          </p>
-          <p className="text-xs font-mono" style={{ color: 'var(--color-text-secondary)' }}>
-            ${data.value.toFixed(2)}
-          </p>
-          <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>
-            {data.percentage}% of total
-          </p>
-        </div>
-      );
-    }
-    return null;
-  };
-
-  // Custom legend
-  const renderLegend = (props: any) => {
-    const { payload } = props;
-    return (
-      <div className="flex flex-wrap gap-3 justify-center mt-4">
-        {payload.map((entry: any, index: number) => (
-          <div key={`legend-${index}`} className="flex items-center gap-2">
-            <div 
-              className="w-3 h-3 rounded-sm"
-              style={{ background: entry.color }}
-            />
-            <span className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-              {entry.value}
-            </span>
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   return (
     <div className="w-full">

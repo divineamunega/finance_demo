@@ -2,7 +2,7 @@ import { requireUser } from '@/lib/session';
 import { db } from '@/db';
 import { accounts, transactions } from '@/db/schema';
 import { eq, inArray, and, gte } from 'drizzle-orm';
-import { generateFinancialSummary } from '@/lib/openai';
+import { generateFinancialSummary } from '@/lib/ai';
 import AnalyticsClient from './AnalyticsClient';
 
 async function getAnalysisData(userId: string) {

@@ -4,6 +4,7 @@ import SpendingChart from '@/components/SpendingChart';
 import CategoryBreakdown from '@/components/CategoryBreakdown';
 import IncomeExpenseComparison from '@/components/IncomeExpenseComparison';
 import MarkdownText from '@/components/MarkdownText';
+import { Anomaly } from '@/lib/types';
 
 interface AnalyticsClientProps {
   analysis: {
@@ -204,7 +205,7 @@ export default function AnalyticsClient({ analysis }: AnalyticsClientProps) {
                   </tr>
                 </thead>
                 <tbody className="divide-y" style={{ borderColor: 'var(--color-border)' }}>
-                  {analysis.anomalies.map((anomaly: any, index: number) => (
+                  {analysis.anomalies.map((anomaly: Anomaly, index: number) => (
                     <tr key={index} className="hover:bg-slate-50">
                       <td className="px-4 py-3 text-sm" style={{ color: 'var(--color-text-primary)' }}>
                         {anomaly.merchant}

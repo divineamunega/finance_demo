@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/db';
 import { accounts, transactions, summaries } from '@/db/schema';
 import { eq, inArray, and, gte } from 'drizzle-orm';
-import { generateFinancialSummary } from '@/lib/openai';
+import { generateFinancialSummary } from '@/lib/ai';
 import { requireSessionUser } from '@/lib/session';
 
 /**

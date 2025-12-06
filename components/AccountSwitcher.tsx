@@ -1,8 +1,8 @@
-'use client';
-
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useApp } from '@/context/AppContext';
 import { fetchDemoUsers, fetchAccounts } from '@/lib/api';
+import { DemoUser } from '@/lib/types';
 
 /**
  * AccountSwitcher Component
@@ -11,7 +11,7 @@ import { fetchDemoUsers, fetchAccounts } from '@/lib/api';
 export default function AccountSwitcher() {
   const { currentUser, currentAccount, setCurrentUser, setCurrentAccount } = useApp();
   
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<DemoUser[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch demo users on mount
@@ -32,7 +32,7 @@ export default function AccountSwitcher() {
       }
     }
     loadUsers();
-  }, []);
+  }, [currentUser, setCurrentUser]);
 
   // Fetch account when user changes (auto-select first account)
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function AccountSwitcher() {
       }
     }
     loadAccount();
-  }, [currentUser]);
+  }, [currentUser, setCurrentAccount]);
 
   // Handle user selection change
   const handleUserChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,9 +93,11 @@ export default function AccountSwitcher() {
       {/* Current Selection Display */}
       {currentUser && currentAccount && (
         <div className="flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-md">
-          <img
+          <Image
             src={currentUser.avatar}
             alt={currentUser.name}
+            width={40}
+            height={40}
             className="w-10 h-10 rounded-full"
           />
           <div>

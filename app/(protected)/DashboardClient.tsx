@@ -1,5 +1,7 @@
 'use client';
 
+import { Account, Transaction, MonthlyBreakdown, CategoryBreakdown } from '@/lib/types';
+
 import { useState } from 'react';
 import Link from 'next/link';
 import { Modal } from '@/components/Modal';
@@ -13,19 +15,17 @@ import { useToast } from '@/context/ToastContext';
 
 interface DashboardClientProps {
   user: { name: string };
-  accounts: any[];
-  totalBalance: number;
+  accounts: Account[];
   totalIncome: number;
   totalExpenses: number;
-  recentTransactions: any[];
-  monthlyBreakdown: any[];
-  categoryBreakdown: any[];
+  recentTransactions: Transaction[];
+  monthlyBreakdown: MonthlyBreakdown[];
+  categoryBreakdown: CategoryBreakdown[];
 }
 
 export default function DashboardClient({
   user,
   accounts,
-  totalBalance,
   totalIncome,
   totalExpenses,
   recentTransactions,
@@ -65,13 +65,13 @@ export default function DashboardClient({
             Welcome back, {user.name}
           </h1>
           <p className="mt-1 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-            Here's your financial overview
+            Here&apos;s your financial overview
           </p>
         </div>
 
         {/* Account Cards */}
         <div className="grid grid-cols-1 gap-6 mb-8">
-          {accounts.map((account: any) => (
+          {accounts.map((account: Account) => (
             <div 
               key={account.id} 
               className="p-6 rounded-lg"
@@ -269,7 +269,7 @@ export default function DashboardClient({
               Recent Transactions
             </h3>
             <div className="space-y-1">
-              {recentTransactions.map((txn: any) => {
+              {recentTransactions.map((txn: Transaction) => {
                 const isPositive = txn.amount > 0;
                 return (
                   <div 
