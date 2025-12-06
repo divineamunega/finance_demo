@@ -45,7 +45,7 @@ export async function processChat(
   financialContext: string,
   userId: string
 ): Promise<ChatResponse> {
-  const model =  "qwen/qwen3-235b-a22b:free";
+  const model =  "meta-llama/llama-3.3-70b-instruct:free";
 
   const systemMessage = buildSystemMessage(financialContext);
   const conversationHistory = messages.slice(-10);
