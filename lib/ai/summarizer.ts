@@ -51,7 +51,7 @@ IMPORTANT:
 
 export async function generateFinancialSummary(data: FinancialData): Promise<string> {
   try {
-    const model = "qwen/qwen3-235b-a22b:free";
+    const model = "mistral/ministral-3b";
 
 
     const { text } = await generateText({

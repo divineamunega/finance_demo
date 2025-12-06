@@ -45,29 +45,98 @@ export async function processChat(
   financialContext: string,
   userId: string
 ): Promise<ChatResponse> {
-  const model =  "meta-llama/llama-3.3-70b-instruct:free";
+  // Use a model that supports tool calling well
+  const model = "openai/gpt-4o-mini";
 
   const systemMessage = buildSystemMessage(financialContext);
   const conversationHistory = messages.slice(-10);
 
-  
-  const result = await generateText({
-    model: aiClient(model),
-    messages: [systemMessage, ...conversationHistory],
-    tools: createFinancialTools(userId),
-    temperature: 0.7,
-  });
+  try {
+    const result = await generateText({
+      model: aiClient(model),
+      messages: [systemMessage, ...conversationHistory],
+      tools: createFinancialTools(userId),
+      temperature: 0.7,
+    });
 
-  const finalMessage = result.text;
-  const toolResults: ToolResult[] = [];
+    console.log('AI Result:', result);
+    console.log('AI Steps:', result.steps);
+    console.log('AI Text:', result.text);
 
+    // Extract tool results from the response steps
+    const toolResults: ToolResult[] = [];
+    
+    if (result.steps) {
+      for (const step of result.steps) {
+        if (step.toolCalls && step.toolCalls.length > 0) {
+          for (const toolCall of step.toolCalls) {
+            const tc = toolCall as any;
+            toolResults.push({
+              toolName: tc.toolName,
+              args: tc.args || {},
+              result: tc.result || { success: true },
+            });
+          }
+        }
+      }
+    }
 
-  if (!finalMessage) {
-    throw new Error('No response from AI');
+    // If tools were executed but no text was generated, make a second call
+    let finalMessage = result.text;
+    
+    if (!finalMessage && toolResults.length > 0) {
+      console.log('Tools executed but no text response. Making follow-up call...');
+      
+      // Create a summary of what the tools found
+      const toolSummary = toolResults.map(tr => {
+        if (tr.result.success && tr.result.data) {
+          return JSON.stringify(tr.result.data);
+        }
+        return JSON.stringify(tr.result);
+      }).join('\n');
+      
+      const followUpResult = await generateText({
+        model: aiClient(model),
+        messages: [
+          systemMessage,
+          ...conversationHistory,
+          {
+            role: 'assistant',
+            content: `I checked the information using my tools. Here's what I found: ${toolSummary}`,
+          },
+        ],
+        temperature: 0.7,
+      });
+      
+      finalMessage = followUpResult.text || 'I completed your request.';
+    } else if (!finalMessage) {
+      finalMessage = 'I apologize, but I was unable to generate a response.';
+    }
+
+    return {
+      message: finalMessage,
+      toolResults,
+    };
+  } catch (error) {
+    console.error('Error in processChat:', error);
+    
+    // If the model doesn't support tools, try without them
+    if (error instanceof Error && error.message.includes('model output must contain')) {
+      console.log('Model may not support tools, retrying without tools...');
+      
+      const fallbackResult = await generateText({
+        model: aiClient(model),
+        messages: [systemMessage, ...conversationHistory],
+        temperature: 0.7,
+      });
+      
+      return {
+        message: fallbackResult.text || 'I apologize, but I encountered an issue processing your request.',
+        toolResults: [],
+      };
+    }
+    
+    throw error;
   }
-
-  return {
-    message: finalMessage,
-    toolResults,
-  };
 }
+

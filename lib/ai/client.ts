@@ -1,11 +1,3 @@
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { gateway } from "ai";
+export const aiClient = (client: string)  =>gateway(client);
 
-const apiKey = process.env.VERCEL_API_KEY || "";
-
-if (!apiKey) {
-  console.warn("AI models may not work. OPENROUTER_API_KEY or OPENAI_API_KEY is not set.");
-}
-
-export const aiClient = createOpenRouter({
-  apiKey
-});
